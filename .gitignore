@@ -62,3 +62,7 @@ dist
 yarn.lock
 
 src/**/*.js
+
+webpack.config.js
+
+*.d.ts
