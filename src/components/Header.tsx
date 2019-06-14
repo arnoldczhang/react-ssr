@@ -1,8 +1,15 @@
-import React from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { CO } from '../types';
 
-const Header = ( { loggedIn } ) => (
+interface HelloProps {
+    loggedIn: boolean;
+}
+
+const Header: React.FC<HelloProps> = ({
+    loggedIn,
+}) => (
     <div>
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
@@ -11,7 +18,7 @@ const Header = ( { loggedIn } ) => (
     </div>
 );
 
-const mapStateToProps = ( state ) => ( {
+const mapStateToProps = ( state: CO ) => ( {
     loggedIn: state.loggedIn,
 } );
 

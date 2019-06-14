@@ -1,20 +1,21 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { fetchCircuits } from "./api";
+import { CO } from './types';
 
 export const initializeSession = ( ) => ( {
     type: "INITIALIZE_SESSION",
 } );
 
-const storeData = ( data ) => ( {
+const storeData = (data: CO ) => ({
     type: "STORE_DATA",
     data,
-} );
+});
 
-export const fetchData = ( ) => ( dispatch ) =>
-    fetchCircuits( ).then( res => dispatch( storeData( res ) ) );
+export const fetchData = ( ) => ( dispatch: Function ) =>
+    fetchCircuits( ).then((res: CO) => dispatch(storeData(res)));
 
-const sessionReducer = ( state = false, action ) => {
+const sessionReducer = ( state = false, action: CO ) => {
     switch ( action.type ) {
         case "INITIALIZE_SESSION":
             return true;
@@ -22,7 +23,7 @@ const sessionReducer = ( state = false, action ) => {
     }
 };
 
-const dataReducer = ( state = [ ], action ) => {
+const dataReducer = ( state: CO = [ ], action: CO ) => {
     switch ( action.type ) {
         case "STORE_DATA":
             return action.data;
@@ -35,5 +36,7 @@ const reducer = combineReducers( {
     data: dataReducer,
 } );
 
-export default ( initialState ) =>
-    createStore( reducer, initialState, applyMiddleware( thunkMiddleware ) );
+const create = ( initialState?: CO ) =>
+createStore( reducer, initialState, applyMiddleware( thunkMiddleware ) );
+
+export default create;

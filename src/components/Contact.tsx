@@ -1,7 +1,8 @@
-import React from "react";
+import * as React from "react";
 import Helmet from "react-helmet";
+import { BaseProps } from "../types";
 
-const Contact = () => (
+const Contact: React.FC<BaseProps> = () => (
     <div>
         <h2>This is the contact page</h2>
         <Helmet>

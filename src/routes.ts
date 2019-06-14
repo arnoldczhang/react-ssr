@@ -2,8 +2,9 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Secret from "./components/Secret";
+import { CO } from "./types";
 
-export default [
+const routes: Array<CO> = [
     {
         path: "/",
         component: Home,
@@ -25,3 +26,5 @@ export default [
         exact: true,
     },
 ];
+
+export default routes;
