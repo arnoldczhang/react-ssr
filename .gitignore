@@ -58,3 +58,7 @@ typings/
 .env
 
 dist
+
+yarn.lock
+
+src/**/*.js

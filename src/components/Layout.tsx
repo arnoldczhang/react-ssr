@@ -1,11 +1,15 @@
-import React from "react";
+import * as React from "react";
 import { Switch, Route } from "react-router-dom";
 import Header from "./Header";
 import routes from "../routes";
+import {
+    BaseState,
+    BaseProps,
+} from "../types";
 
-class Layout extends React.Component {
-    constructor() {
-        super();
+class Layout extends React.Component<BaseProps, BaseState> {
+    constructor(props = {}) {
+        super(props);
         this.state = {
             title: "Welcome to React SSR!",
         };
