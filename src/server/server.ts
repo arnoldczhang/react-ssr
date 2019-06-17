@@ -85,7 +85,7 @@ app
     ctx.set('Access-Control-Allow-Origin', '*');
     return next();
   })
-  .use(staticServer(path.resolve(__dirname, '../dist')))
+  .use(staticServer(path.resolve(__dirname, '../../dist')))
   .use(body())
   .use(logger())
   .use(compress())

@@ -39,9 +39,9 @@ const config: Configuration = {
     rules: [
       {
       test: /\.tsx?$/,
-      include: resolve(__dirname, "./src"),
+      include: resolve(__dirname, "../src"),
       exclude: /node_modules/,
-      use: ["babel-loader", "ts-loader"],
+      use: ["ts-loader"],
     }, 
     {
       test: /\.(j)sx?$/,
