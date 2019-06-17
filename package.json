@@ -13,12 +13,12 @@
     ]
   },
   "scripts": {
-    "build:prod": "cross-env NODE_ENV=production webpack --progress",
+    "build:prod": "cross-env NODE_ENV=production webpack --config ./build/webpack.prod.config.js --progress",
     "babel": "babel src -d dist",
     "server:prod": "node ./dist/server.js",
-    "build:dev": "cross-env NODE_ENV=development webpack --watch --progress",
+    "build:dev": "cross-env NODE_ENV=development webpack --config ./build/webpack.dev.config.js --watch --progress",
     "server:ts": "tsc",
-    "server:dev": "cross-env NODE_ENV=development babel-node ./src/server.js",
+    "server:dev": "cross-env NODE_ENV=development babel-node ./src/server/server.js",
     "dev": "npm-run-all --serial server:ts server:dev",
     "deploy": "npm-run-all --serial babel build:prod && npm run server:prod",
     "linter": "eslint src",
@@ -41,6 +41,7 @@
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/koa-mount": "^3.0.1",
     "@types/webpack-bundle-analyzer": "^2.13.1",
+    "@types/webpack-merge": "^4.1.5",
     "@types/webpack-node-externals": "^1.6.3",
     "graphql": "^14.3.1",
     "isomorphic-fetch": "^2.2.1",
@@ -55,6 +56,8 @@
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.2.0",
+    "webpack-deep-scope-plugin": "^1.6.1",
+    "webpack-merge": "^4.2.1",
     "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {

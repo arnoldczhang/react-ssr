@@ -1,19 +1,12 @@
-import * as nodeExternals from 'webpack-node-externals';
 import { Configuration } from 'webpack';
 import {
   join,
   resolve,
 } from "path";
-import {
-  BundleAnalyzerPlugin,
-} from "webpack-bundle-analyzer";
 import * as FriendlyErrorsWebpackPlugin from "friendly-errors-webpack-plugin";
 import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
 import * as webpack from "webpack";
-const WriteFileWebpackPlugin = require("write-file-webpack-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const dev = process.env.NODE_ENV !== "production";
 const plugins = [
   new FriendlyErrorsWebpackPlugin(),
   new webpack.DefinePlugin({
@@ -21,29 +14,12 @@ const plugins = [
   })
 ];
 
-const filepath = "./client.tsx";
-
-if (!dev) {
-  plugins.push(new BundleAnalyzerPlugin({
-    analyzerMode: "static",
-    reportFilename: "webpack-report.html",
-    openAnalyzer: false,
-  }));
-} else {
-  plugins.push(
-    new CleanWebpackPlugin(),
-    new WriteFileWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-  );
-}
 
 const config: Configuration = {
-  mode: dev ? "development" : "production",
-  context: join(__dirname, "src"),
+  context: join(__dirname, "../src"),
   devtool: "source-map",
-  // externals: [nodeExternals()],
   entry: {
-    app: filepath,
+    app: "./client/client.tsx",
   },
   node: {
     net: 'empty',
@@ -55,18 +31,20 @@ const config: Configuration = {
       "node_modules"
     ],
     alias: {
-      // 'react-dom': '@hot-loader/react-dom',
+      '@common': resolve(__dirname, '../src/common'),
     },
     extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
   },
   module: {
-    rules: [{
-      test: /\.(tsx|ts)?$/,
+    rules: [
+      {
+      test: /\.tsx?$/,
       include: resolve(__dirname, "./src"),
       exclude: /node_modules/,
-      use: ["ts-loader"],
-    }, {
-      test: /\.jsx?$/,
+      use: ["babel-loader", "ts-loader"],
+    }, 
+    {
+      test: /\.(j)sx?$/,
       exclude: /(node_modules|bower_components)/,
       loader: "babel-loader",
       options: {
@@ -103,12 +81,12 @@ const config: Configuration = {
           }
         ],
         fallback: 'style-loader',
-        publicPath: '/dist',
+        // publicPath: '/dist',
       })
     }],
   },
   output: {
-    path: resolve(__dirname, "dist"),
+    path: resolve(__dirname, "../dist"),
     filename: "[name].js",
     chunkFilename: "[name].[chunkhash].js",
     publicPath: '/dist/',

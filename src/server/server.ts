@@ -1,8 +1,8 @@
 import * as path from 'path';
 import Helmet from 'react-helmet';
-import { htmlTemplate }  from './utils';
-import getRenderDom from './render-dom';
-import createStore, { initializeSession } from './store';
+import { htmlTemplate }  from '../common/utils';
+import getRenderDom from '../common/utils/render-dom';
+import createStore, { initializeSession } from '../common/store';
 
 import * as Koa from 'koa';
 import * as body from 'koa-body';
@@ -17,7 +17,7 @@ import { buildSchema } from 'graphql';
 import * as webpack from 'webpack';
 import * as webpackDevMiddleware from 'koa-webpack-dev-middleware';
 import * as webpackHotMiddleware from 'koa-webpack-hot-middleware';
-import webpackConfig from '../webpack.config';
+import webpackConfig from '../../build/webpack.dev.config';
 import { Store } from 'redux';
 
 const dev = process.env.NODE_ENV === 'development';
@@ -25,15 +25,15 @@ const app = new Koa();
 const router = new Router();
 const port = 2048;
 
-(webpackConfig.entry as any).app = [
-  `webpack-hot-middleware/client?path=//localhost:${port}/__webpack_hmr`,
-  (webpackConfig.entry as any).app
-];
-webpackConfig.output.hotUpdateMainFilename = 'updates/[hash].hot-update.json';
-webpackConfig.output.hotUpdateChunkFilename =
-  'updates/[id].[hash].hot-update.js';
 
 if (dev) {
+  (webpackConfig.entry as any).app = [
+    `webpack-hot-middleware/client?path=//localhost:${port}/__webpack_hmr`,
+    (webpackConfig.entry as any).app
+  ];
+  webpackConfig.output.hotUpdateMainFilename = 'updates/[hash].hot-update.json';
+  webpackConfig.output.hotUpdateChunkFilename = 'updates/[id].[hash].hot-update.js';
+
   const watchOptions = {
     ignored: /node_modules/,
     stats: webpackConfig.stats

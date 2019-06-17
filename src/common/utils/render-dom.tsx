@@ -2,7 +2,7 @@ import * as React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
-import Layout from "./components/Layout";
+import Layout from "../../client/components/Layout";
 import { IncomingMessage } from "http";
 import { Store } from "redux";
 
