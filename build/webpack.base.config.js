@@ -14,7 +14,7 @@ const config = {
     context: path_1.join(__dirname, "../src"),
     devtool: "source-map",
     entry: {
-        app: "./client.tsx",
+        app: "./client/client.tsx",
     },
     node: {
         net: 'empty',
