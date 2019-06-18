@@ -34,9 +34,9 @@ const config = {
         rules: [
             {
                 test: /\.tsx?$/,
-                include: path_1.resolve(__dirname, "./src"),
+                include: path_1.resolve(__dirname, "../src"),
                 exclude: /node_modules/,
-                use: ["babel-loader", "ts-loader"],
+                use: ["ts-loader"],
             },
             {
                 test: /\.(j)sx?$/,

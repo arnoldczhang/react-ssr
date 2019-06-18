@@ -20,9 +20,9 @@ const app = document.getElementById("app");
 hydrate(jsx, app);
 
 if (process.env.NODE_ENV === "development") {
-  if ((module as any).hot) {
-    (module as any).hot.accept();
-  }
+  // if ((module as any).hot) {
+  //   (module as any).hot.accept();
+  // }
 
   if (!(window as any).store) {
     (window as any).store = store;

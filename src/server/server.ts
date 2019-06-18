@@ -28,7 +28,7 @@ const port = 2048;
 
 if (dev) {
   (webpackConfig.entry as any).app = [
-    `webpack-hot-middleware/client?path=//localhost:${port}/__webpack_hmr`,
+    `webpack-hot-middleware/client?noInfo=true&reload=true&path=//localhost:${port}/__webpack_hmr`,
     (webpackConfig.entry as any).app
   ];
   webpackConfig.output.hotUpdateMainFilename = 'updates/[hash].hot-update.json';
@@ -50,6 +50,10 @@ if (dev) {
   );
 
   app.use(webpackHotMiddleware(compiler));
+
+  compiler.plugin('done', () => {
+    console.log('===webpackkkk compiled===');
+  });
 }
 
 router.get('/*', (ctx: Koa.Context, next) => {
@@ -78,7 +82,7 @@ const GraphQLSchema = buildSchema(`
   }
 `);
 
-const root = { hello: () => 'Hello 11211221world!' };
+const root = { hello: () => 'Hello world!' };
 
 app
   .use((ctx, next) => {
