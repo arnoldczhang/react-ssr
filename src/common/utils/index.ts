@@ -1,6 +1,11 @@
-import { CO } from "./types";
+import { CO } from "../types";
 
-export function htmlTemplate(reactDom: string, reduxState: CO, helmetData: CO) {
+export function htmlTemplate(
+  reactDom: string,
+  reduxState: CO,
+  helmetData: CO,
+  files: Array<string>,
+) {
   const ssr = Math.random() > 0.5;
   console.log("ssr", ssr);
   return `
@@ -17,8 +22,9 @@ export function htmlTemplate(reactDom: string, reduxState: CO, helmetData: CO) {
             <div id="app">${ssr ? reactDom : ""}</div>
             <script>
                 window.REDUX_DATA = ${JSON.stringify(reduxState)}
+                window.__SSR__ = ${ssr};
             </script>
-            <script src="./app.js"></script>
+            ${files.map(file => `<script src="${file}"></script>`).join('\n')}
         </body>
         </html>
     `;

@@ -63,6 +63,7 @@ yarn.lock
 
 src/**/*.js
 
-webpack.config.js
-
-*.d.ts
+webpack.server.config.js
+webpack.base.config.js
+webpack.dev.config.js
+webpack.prod.config.js

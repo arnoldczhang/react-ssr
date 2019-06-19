@@ -1,8 +1,8 @@
 import * as path from 'path';
 import Helmet from 'react-helmet';
-import { htmlTemplate }  from './utils';
-import getRenderDom from './render-dom';
-import createStore, { initializeSession } from './store';
+import { htmlTemplate }  from '../common/utils';
+import getRenderDom from '../common/utils/render-dom';
+import createStore, { initializeSession } from '../common/store';
 
 import * as Koa from 'koa';
 import * as body from 'koa-body';
@@ -13,27 +13,28 @@ import * as staticServer from 'koa-static';
 import * as mount from 'koa-mount';
 import * as graphqlHTTP from'koa-graphql';
 import { buildSchema } from 'graphql';
-
 import * as webpack from 'webpack';
 import * as webpackDevMiddleware from 'koa-webpack-dev-middleware';
 import * as webpackHotMiddleware from 'koa-webpack-hot-middleware';
-import webpackConfig from '../webpack.config';
 import { Store } from 'redux';
+
+import getMainFilePath from './get-main-path';
+import webpackConfig from '../../build/webpack.dev.config';
 
 const dev = process.env.NODE_ENV === 'development';
 const app = new Koa();
 const router = new Router();
 const port = 2048;
-
-(webpackConfig.entry as any).app = [
-  `webpack-hot-middleware/client?path=//localhost:${port}/__webpack_hmr`,
-  (webpackConfig.entry as any).app
-];
-webpackConfig.output.hotUpdateMainFilename = 'updates/[hash].hot-update.json';
-webpackConfig.output.hotUpdateChunkFilename =
-  'updates/[id].[hash].hot-update.js';
+const genResFiles = getMainFilePath();
 
 if (dev) {
+  (webpackConfig.entry as any).app = [
+    `webpack-hot-middleware/client?noInfo=true&reload=true&path=//localhost:${port}/__webpack_hmr`,
+    (webpackConfig.entry as any).app,
+  ];
+  webpackConfig.output.hotUpdateMainFilename = 'updates/[hash].hot-update.json';
+  webpackConfig.output.hotUpdateChunkFilename = 'updates/[id].[hash].hot-update.js';
+
   const watchOptions = {
     ignored: /node_modules/,
     stats: webpackConfig.stats
@@ -50,6 +51,10 @@ if (dev) {
   );
 
   app.use(webpackHotMiddleware(compiler));
+
+  compiler.plugin('done', () => {
+    console.log('===webpackkkk compiled===');
+  });
 }
 
 router.get('/*', (ctx: Koa.Context, next) => {
@@ -65,7 +70,12 @@ router.get('/*', (ctx: Koa.Context, next) => {
 
     ctx.status = 200;
     // ctx.set('Content-Type', 'text/html');
-    ctx.body = htmlTemplate(reactDom, reduxState, helmetData);
+    ctx.body = htmlTemplate(
+      reactDom,
+      reduxState,
+      helmetData,
+      genResFiles
+    );
   } catch (err) {
     console.log(err);
     next();
@@ -78,14 +88,14 @@ const GraphQLSchema = buildSchema(`
   }
 `);
 
-const root = { hello: () => 'Hello 11211221world!' };
+const root = { hello: () => 'Hello world!' };
 
 app
   .use((ctx, next) => {
     ctx.set('Access-Control-Allow-Origin', '*');
     return next();
   })
-  .use(staticServer(path.resolve(__dirname, '../dist')))
+  .use(staticServer(path.resolve(process.cwd(), '../dist')))
   .use(body())
   .use(logger())
   .use(compress())

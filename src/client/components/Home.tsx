@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { fetchData } from "../store";
-import { CO, CF, BaseState } from "../types";
+import { fetchData } from "../../common/store";
+import { CO, CF, BaseState } from "../../common/types";
 
 interface HomeProps {
   circuits?: Array<CO>;
