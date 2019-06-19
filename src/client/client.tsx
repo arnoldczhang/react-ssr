@@ -1,5 +1,5 @@
 import * as React from "react";
-import { hydrate } from "react-dom";
+import { hydrate, render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
 
@@ -17,7 +17,7 @@ const jsx = (
 );
 
 const app = document.getElementById("app");
-hydrate(jsx, app);
+((window as any).__SSR__ ? hydrate : render)(jsx, app);
 
 if (process.env.NODE_ENV === "development") {
   // if ((module as any).hot) {

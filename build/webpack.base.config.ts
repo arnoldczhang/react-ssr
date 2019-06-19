@@ -16,6 +16,7 @@ const plugins = [
 
 
 const config: Configuration = {
+  name: 'client',
   context: join(__dirname, "../src"),
   devtool: "source-map",
   entry: {
