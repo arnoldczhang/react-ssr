@@ -24,9 +24,7 @@ export function htmlTemplate(
                 window.REDUX_DATA = ${JSON.stringify(reduxState)}
                 window.__SSR__ = ${ssr};
             </script>
-            <script src="${files[0] || './runtime.js'}"></script>
-            <script src="${files[1] || './vendors.js'}"></script>
-            <script src="${files[2] || './app.js'}"></script>
+            ${files.map(file => `<script src="${file}"></script>`).join('\n')}
         </body>
         </html>
     `;

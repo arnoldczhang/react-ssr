@@ -1,5 +1,4 @@
 import { sync } from 'glob';
-import * as path from 'path';
 
 const fileNames = ['runtime', 'vendors', 'app'];
 const dest = 'dist';

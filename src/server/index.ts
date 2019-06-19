@@ -22,7 +22,7 @@ const router = new Router();
 const port = 2048;
 const genResFiles = getMainFilePath();
 
-router.get('/*', (ctx: Koa.Context, next) => {
+router.get('/*', (ctx: Koa.Context, next: Function) => {
   const context = {};
   const { req } = ctx;
   const store: Store = createStore();
@@ -39,7 +39,7 @@ router.get('/*', (ctx: Koa.Context, next) => {
       reactDom,
       reduxState,
       helmetData,
-      genResFiles
+      genResFiles.length ? genResFiles : ['./app.js']
     );
   } catch (err) {
     console.log(err);

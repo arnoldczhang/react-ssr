@@ -99,6 +99,8 @@ const run = async () => {
     console.log(error, 'error');
   }
 
+  console.log('waiting for files generation');
+  
   const script = nodemon({
     script: path.resolve(__dirname, '../dist/server.js'),
     ignore: ['src', 'scripts', 'config', './*.*', 'build/client'],
